@@ -21,12 +21,31 @@ class _EventPageState extends State<EventPage> {
           TextFormField(
             decoration: const InputDecoration(
               icon: Icon(Icons.message),
-              labelText: "Message *",
+              labelText: "Title *",
+            ),
+            maxLength: 30,
+            validator: (value) {
+              if (value.isEmpty) {
+                return "Title must not empty";
+              }
+              if (value.length > 80 || value.length < 10) {
+                return "Enter Character b.n 5 and 30";
+              } else
+                return null;
+            },
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              icon: Icon(Icons.message),
+              labelText: "Body *",
             ),
             maxLength: 80,
             validator: (value) {
               if (value.isEmpty) {
-                return "Message must not empty";
+                return "Body must not empty";
               }
               if (value.length > 80 || value.length < 10) {
                 return "Enter Character b.n 10 and 80";
@@ -40,7 +59,7 @@ class _EventPageState extends State<EventPage> {
               alignment: Alignment.bottomCenter,
               child: RaisedButton(
                 child: Text(
-                  "Send",
+                  "Post",
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
