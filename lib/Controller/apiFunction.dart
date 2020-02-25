@@ -34,14 +34,16 @@ Future getMessage(BuildContext context) async {
 
 Future sendMessage(BuildContext context, Map<String, dynamic> body) async {
   try {
-    final url = "http://10.0.2.2:3000/messages/add";
+    final url = "http://10.0.2.2:8000/messages/add";
+    print(body);
     final jsonbody =
         await jsonEncode(body, toEncodable: (e) => json.decode((e)));
+    print("I am Here");
+    print(jsonbody);
     http.Response response = await http.post(
       url,
       body: jsonbody,
       headers: {
-        "Accept": "application/json",
         "Content-Type": "application/json",
       },
     );

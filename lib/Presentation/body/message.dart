@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //From nasaAcadamy package.
-import 'package:nasaadmin/Presentation/common/basicappbar.dart';
+import 'package:nasaadmin/Controller/apiFunction.dart';
 
 class MessagePage extends StatefulWidget {
   @override
@@ -10,6 +10,7 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   final _formKey = GlobalKey<FormState>();
+  String _message;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -30,8 +31,10 @@ class _MessagePageState extends State<MessagePage> {
               }
               if (value.length > 80 || value.length < 10) {
                 return "Enter Character b.n 10 and 80";
-              } else
+              } else {
+                _message = value;
                 return null;
+              }
             },
           ),
           Padding(
@@ -51,6 +54,8 @@ class _MessagePageState extends State<MessagePage> {
                   if (_formKey.currentState.validate()) {
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing...')));
+                    Map<String, dynamic> body = {'body': _message};
+                    sendMessage(context, body);
                   }
                 },
               ),
