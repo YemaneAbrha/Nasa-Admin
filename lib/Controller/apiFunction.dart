@@ -35,16 +35,18 @@ Future getMessage(BuildContext context) async {
 Future sendMessage(BuildContext context, Map<String, dynamic> body) async {
   try {
     final url = "http://10.0.2.2:3000/messages/add";
+    final jsonbody =
+        await jsonEncode(body, toEncodable: (e) => json.decode((e)));
     http.Response response = await http.post(
       url,
-      body: body,
+      body: jsonbody,
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
       },
     );
     if (response.statusCode == 200) {
-      print("Sent Success fully");
+      print("Sent Successfully");
     } else {
       print("Message Not Sent");
     }
