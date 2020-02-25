@@ -4,7 +4,7 @@ import 'package:nasaadmin/Presentation/body/message.dart';
 import 'package:nasaadmin/Presentation/common/basicappbar.dart';
 import 'package:nasaadmin/Presentation/body/home.dart';
 import 'package:nasaadmin/Presentation/body/event.dart';
-import 'package:nasaadmin/Presentation/body/home.dart';
+import 'package:nasaadmin/Presentation/body/message.dart';
 
 class CommonPage extends StatefulWidget {
   @override
@@ -24,10 +24,10 @@ class _CommonPageState extends State<CommonPage> {
       return HomePage();
     }
     if (_selectedIndex == 1) {
-      return EventPage();
+      return MessagePage();
     }
     if (_selectedIndex == 2) {
-      return MessagePage();
+      return EventPage();
     } else {
       return HomePage();
     }

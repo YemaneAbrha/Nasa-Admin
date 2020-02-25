@@ -13,7 +13,7 @@ class _EventPageState extends State<EventPage> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text("Message"),
+        child: Text("Event"),
       ),
     );
   }
