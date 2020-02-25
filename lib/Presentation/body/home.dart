@@ -11,12 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(235, 237, 240, 1.0),
-
-      body: Container(),
-      // drawer: SideBarDrawer(),
-      // bottomNavigationBar: ButtomNavigationBarContainer(),
-    );
+    return Container();
   }
 }
