@@ -7,17 +7,17 @@ import 'dart:convert';
 import 'package:nasaadmin/Model/Json/data.dart';
 
 Future getMessage(BuildContext context) async {
-  // try {
-  //   final url = 'http://10.0.2.2:3000/message';
-  //   http.Response response = await http.get(url, headers: {
-  //     "Accept": "application/json",
-  //     "Content-Type": "application/json"
-  //   });
-  //   final message = jsonDecode(response.body);
-  //   return message;
-  // } catch (e) {
-  //   print(e);
-  // }
+  try {
+    final url = 'http://10.0.2.2:3000/message';
+    http.Response response = await http.get(url, headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    });
+    final message = jsonDecode(response.body);
+    return message;
+  } catch (e) {
+    print(e);
+  }
   try {
     final url = 'http://10.0.2.2:3000/events';
     http.Response response = await http.get(
@@ -34,7 +34,7 @@ Future getMessage(BuildContext context) async {
 
 Future sendMessage(BuildContext context, Map<String, dynamic> body) async {
   try {
-    final url = "here";
+    final url = "http://10.0.2.2:3000/messages/add";
     http.Response response = await http.post(
       url,
       body: body,
@@ -65,10 +65,6 @@ Future<List<Event>> getEvent(BuildContext context) async {
     );
     final datas = jsonDecode(response.body);
     List<Event> events = [];
-    // print(datas);
-    // for (var data in datas) {
-    //   print(data);
-    // }
     for (var data in datas) {
       print(data);
       Event event = Event(
