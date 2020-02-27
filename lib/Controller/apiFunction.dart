@@ -2,13 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 // From nasa package
 import 'package:nasaadmin/Model/Json/data.dart';
 
 Future getMessage(BuildContext context) async {
   try {
-    final url = 'http://10.0.2.2:3000/message';
+    final url = 'http://192.168.137.169:8000/message';
     http.Response response = await http.get(url, headers: {
       "Accept": "application/json",
       "Content-Type": "application/json"
@@ -19,7 +20,7 @@ Future getMessage(BuildContext context) async {
     print(e);
   }
   try {
-    final url = 'http://10.0.2.2:3000/events';
+    final url = 'http://192.168.137.10:8000/events';
     http.Response response = await http.get(
       url,
       headers: {
@@ -34,12 +35,9 @@ Future getMessage(BuildContext context) async {
 
 Future sendMessage(BuildContext context, Map<String, dynamic> body) async {
   try {
-    final url = "http://10.0.2.2:8000/messages/add";
-    print(body);
+    final url = "http://192.168.137.42:8000/messages/add";
     final jsonbody =
         await jsonEncode(body, toEncodable: (e) => json.decode((e)));
-    print("I am Here");
-    print(jsonbody);
     http.Response response = await http.post(
       url,
       body: jsonbody,
@@ -57,8 +55,29 @@ Future sendMessage(BuildContext context, Map<String, dynamic> body) async {
   }
 }
 
+Future addEvent(BuildContext context, Map body) async {
+  try {
+    final url = "http://192.168.137.42:8000/events/add";
+    final postUri = Uri.parse(url);
+    var request = new http.MultipartRequest("POST", postUri);
+    request.fields['title'] = body["title"];
+    request.fields['body'] = body['body'];
+    request.files
+        .add(await http.MultipartFile.fromPath('image', body['image']));
+    request.send().then((response) {
+      if (response.statusCode == 200)
+        print("Uploaded!");
+      else {
+        print(response.statusCode);
+      }
+    });
+  } catch (e) {
+    print(e);
+  }
+}
+
 Future<List<Event>> getEvent(BuildContext context) async {
-  final url = 'http://10.0.2.2:8000/events';
+  final url = 'http://192.168.137.10:8000/events';
   try {
     http.Response response = await http.get(
       url,

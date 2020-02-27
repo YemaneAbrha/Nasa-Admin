@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 //From nasaAcadamy package.
-import 'package:nasaadmin/Presentation/common/basicappbar.dart';
+import 'package:nasaadmin/Controller/apiFunction.dart';
 
 class EventPage extends StatefulWidget {
   @override
@@ -10,6 +12,19 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   final _formKey = GlobalKey<FormState>();
+  String _base64Image;
+  String _fileName;
+  String _title;
+  String _body;
+  File _file;
+
+  void _choose() async {
+    File _selected = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() async {
+      _file = _selected;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -27,12 +42,17 @@ class _EventPageState extends State<EventPage> {
                 maxLength: 30,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return "Title must not empty";
+                    return "Title Must Not Empty";
                   }
                   if (value.length > 80 || value.length < 10) {
                     return "Enter Character b.n 5 and 30";
-                  } else
+                  } else {
+                    setState(() {
+                      _title = value;
+                    });
+
                     return null;
+                  }
                 },
               ),
               SizedBox(
@@ -50,9 +70,25 @@ class _EventPageState extends State<EventPage> {
                   }
                   if (value.length > 80 || value.length < 10) {
                     return "Enter Character b.n 10 and 80";
-                  } else
+                  } else {
+                    setState(() {
+                      _body = value;
+                    });
                     return null;
+                  }
                 },
+              ),
+              RaisedButton(
+                onPressed: _choose,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.image),
+                    SizedBox(width: 3),
+                    Text("Choose Image")
+                  ],
+                ),
+
+                //  Icon(Icons.image),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -71,6 +107,12 @@ class _EventPageState extends State<EventPage> {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(
                             SnackBar(content: Text('Processing...')));
+                        Map body = {
+                          'title': _title,
+                          'body': _body,
+                          'image': _file.path
+                        };
+                        addEvent(context, body);
                       }
                     },
                   ),
