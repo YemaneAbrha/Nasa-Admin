@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: <String, WidgetBuilder>{},
+      debugShowCheckedModeBanner: false,
       title: 'ናሳ ት/ቤት',
       theme: ThemeData(
         primaryColor: Color.fromRGBO(0, 141, 81, 1.0),
