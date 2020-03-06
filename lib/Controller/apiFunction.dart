@@ -54,10 +54,12 @@ Future addEvent(BuildContext context, Map body) async {
     request.files
         .add(await http.MultipartFile.fromPath('image', body['image']));
     request.send().then((response) {
-      if (response.statusCode == 200)
+      if (response.statusCode == 200) {
         print("Uploaded!");
-      else {
-        print(response.statusCode);
+        return response.statusCode;
+      } else {
+        print("Unploaded ");
+        return response.statusCode;
       }
     });
   } catch (e) {

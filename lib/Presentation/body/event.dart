@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -17,12 +19,25 @@ class _EventPageState extends State<EventPage> {
   String _title;
   String _body;
   File _file;
-
+  int _complete = 0;
   void _choose() async {
     File _selected = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() async {
       _file = _selected;
     });
+  }
+
+  void _upload(body) async {
+    var status = await addEvent(context, body);
+    if (status == 200) {
+      setState(() {
+        _complete = 1;
+      });
+    } else {
+      setState(() {
+        _complete = -1;
+      });
+    }
   }
 
   @override
@@ -106,13 +121,23 @@ class _EventPageState extends State<EventPage> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing...')));
+                            SnackBar(content: Text('Validating...')));
                         Map body = {
                           'title': _title,
                           'body': _body,
                           'image': _file.path
                         };
-                        addEvent(context, body);
+                        _upload(body);
+                        if (_complete == 0) {
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text("Uploading....")));
+                        } else if (_complete == 1) {
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text("Uploaded")));
+                        } else if (_complete == -1) {
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text("Error in Uploading")));
+                        }
                       }
                     },
                   ),
