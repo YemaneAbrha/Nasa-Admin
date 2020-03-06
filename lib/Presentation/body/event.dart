@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -20,6 +19,7 @@ class _EventPageState extends State<EventPage> {
   String _body;
   File _file;
   int _complete = 0;
+  bool _isbuttonDisable = false;
   void _choose() async {
     File _selected = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() async {
@@ -28,14 +28,20 @@ class _EventPageState extends State<EventPage> {
   }
 
   void _upload(body) async {
-    var status = await addEvent(context, body);
+    var status;
+    setState(() async {
+      status = await addEvent(context, body);
+    });
+
     if (status == 200) {
       setState(() {
         _complete = 1;
+        _isbuttonDisable = true;
       });
     } else {
       setState(() {
         _complete = -1;
+        _isbuttonDisable = true;
       });
     }
   }
@@ -134,8 +140,8 @@ class _EventPageState extends State<EventPage> {
                           Scaffold.of(context).showSnackBar(
                               SnackBar(content: Text("Uploading....")));
                         } else if (_complete == 1) {
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text("Uploaded")));
+                          Scaffold.of(context)
+                              .showSnackBar(SnackBar(content: Text("Uploade")));
                         } else if (_complete == -1) {
                           Scaffold.of(context).showSnackBar(
                               SnackBar(content: Text("Error in Uploading")));
