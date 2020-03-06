@@ -49,6 +49,16 @@ class _EventPageState extends State<EventPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+               RaisedButton(
+                onPressed: _choose,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.image),
+                    SizedBox(width: 3),
+                    Text("Choose Image")
+                  ],
+                ),
+              ),
               TextFormField(
                 decoration: const InputDecoration(
                   icon: Icon(Icons.title),
@@ -92,18 +102,6 @@ class _EventPageState extends State<EventPage> {
                     return null;
                   }
                 },
-              ),
-              RaisedButton(
-                onPressed: _choose,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.image),
-                    SizedBox(width: 3),
-                    Text("Choose Image")
-                  ],
-                ),
-
-                //  Icon(Icons.image),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
