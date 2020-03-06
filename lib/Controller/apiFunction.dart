@@ -58,7 +58,7 @@ Future addEvent(BuildContext context, Map body) async {
         print("Uploaded!");
         return response.statusCode;
       } else {
-        print("Unploaded ");
+        print("Not Uploaded");
         return response.statusCode;
       }
     });
